@@ -13,13 +13,16 @@ jobs:
         with:
           flutter-version: '3.16.x'
           channel: 'stable'
-          # إذا كان مشروع الفلاتر داخل مجلد رئيسي بالمستودع، اكتب اسمه هنا (مثلاً hoqoqi)، وإذا كان بالمجلد الجذر اتركه أو اضبط المسار
+      
+      # هذه الخطوة تنشئ بنية مشروع أندرويد وفلاتر كاملة تلقائياً إذا كانت ناقصة
+      - name: Create Flutter template structure if missing
+        run: |
+          flutter create . --org com.hoqoqi.app --project-name hoqoqi --platforms=android --overwrite
+          
       - run: flutter pub get
-        working-directory: .
       - run: flutter build apk --release
-        working-directory: .
+      
       - uses: actions/upload-artifact@v4
         with:
           name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
-          
